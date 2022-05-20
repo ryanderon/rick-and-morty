@@ -14,8 +14,18 @@ function App() {
   return (
     <Container>
       <Routes>
-        <Route strict exact path="/" element={<CharacterList />} />
-        <Route strict exact path="/:id" element={<CharacterDetail />} />
+        <Route
+          strict
+          exact
+          path="/rick-and-morty"
+          element={<CharacterList />}
+        />
+        <Route
+          strict
+          exact
+          path="/rick-and-morty/:id"
+          element={<CharacterDetail />}
+        />
       </Routes>
     </Container>
   );
