@@ -1,6 +1,4 @@
 import { useQuery, gql } from "@apollo/client";
-import { useEffect } from "react";
-import { useState } from "react";
 
 const GET_CHARACTERS = gql`
   query GetCharacters($page: Int) {
@@ -22,24 +20,17 @@ const GET_CHARACTERS = gql`
 `;
 
 const useCharacters = (page = 1) => {
-  const { error, loading, data, refetch } = useQuery(GET_CHARACTERS, {
+  const { error, loading, data, fetchMore } = useQuery(GET_CHARACTERS, {
     variables: {
       page,
     },
   });
-  const [arrCharacters, setArrCharacters] = useState([]);
-
-  useEffect(() => {
-    data && setArrCharacters([...arrCharacters, ...data?.characters?.results]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
 
   return {
     error,
     loading,
-    characters: arrCharacters,
-    info: data?.characters?.info,
-    refetch,
+    data,
+    fetchMore,
   };
 };
 

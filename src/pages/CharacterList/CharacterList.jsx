@@ -8,7 +8,7 @@ import { CharactersContainer } from "./CharacterListStyle";
 import { color2 } from "../../__variables";
 
 const CharacterList = () => {
-  const { error, loading, characters, info, refetch } = useCharacters();
+  const { error, loading, data, fetchMore } = useCharacters();
 
   return (
     <CharactersContainer>
@@ -18,14 +18,26 @@ const CharacterList = () => {
         <Typo>Something went wrong</Typo>
       ) : (
         <>
-          {characters?.map((v) => (
+          {data?.characters?.results?.map((v) => (
             <CharacterCard key={v?.id} data={v} />
           ))}
-          {info?.next && (
+          {data?.characters?.info?.next && (
             <Button
               padding="16px 24px"
               bgColor={color2}
-              onClick={() => refetch({ page: info?.next })}
+              onClick={() => {
+                const { next } = data?.characters?.info;
+                fetchMore({
+                  variables: { page: next },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    fetchMoreResult.characters.results = [
+                      ...prev.characters.results,
+                      ...fetchMoreResult.characters.results,
+                    ];
+                    return fetchMoreResult;
+                  },
+                });
+              }}
             >
               Load more
             </Button>
