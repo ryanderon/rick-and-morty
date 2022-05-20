@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Rick And Morty
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Learning how to use GraphQL on ReactJS project
 
 ## Available Scripts
 
