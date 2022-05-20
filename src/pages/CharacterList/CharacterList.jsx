@@ -1,26 +1,37 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import OverlaySpinner from "../../components/OverlaySpinner/OverlaySpinner";
 import Typo from "../../components/Typo/Typo";
 import useCharacters from "../../hooks/useCharacters";
+import Button from "../../components/Button/Button";
+import CharacterCard from "./CharacterCard";
 import { CharactersContainer } from "./CharacterListStyle";
+import { color2 } from "../../__variables";
 
 const CharacterList = () => {
-  const { error, loading, data } = useCharacters();
-
-  if (loading) return <Typo>Spinner...</Typo>;
-
-  if (error) return <Typo>Something went wrong</Typo>;
+  const { error, loading, characters, info, refetch } = useCharacters();
 
   return (
     <CharactersContainer>
-      {data?.characters?.results?.map((v) => (
-        <Link key={v?.id} to={`/${v?.id}`}>
-          <div>
-            <img src={v?.image} alt="" />
-            <Typo>{v?.name}</Typo>
-          </div>
-        </Link>
-      ))}
+      {loading ? (
+        <OverlaySpinner isVisible={loading} />
+      ) : error ? (
+        <Typo>Something went wrong</Typo>
+      ) : (
+        <>
+          {characters?.map((v) => (
+            <CharacterCard key={v?.id} data={v} />
+          ))}
+          {info?.next && (
+            <Button
+              padding="16px 24px"
+              bgColor={color2}
+              onClick={() => refetch({ page: info?.next })}
+            >
+              Load more
+            </Button>
+          )}
+        </>
+      )}
     </CharactersContainer>
   );
 };

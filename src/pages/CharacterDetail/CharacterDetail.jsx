@@ -5,8 +5,7 @@ import useCharacter from "../../hooks/useCharacter";
 
 const CharacterDetail = () => {
   const { id } = useParams();
-  const { data, error, loading } = useCharacter(id);
-  console.log(data);
+  const { error, loading } = useCharacter(id);
 
   if (error) return <Typo>Something went wrong....</Typo>;
   if (loading) return <Typo>Spinner</Typo>;
